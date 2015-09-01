@@ -65,7 +65,7 @@ router.post('/', upload.single('zip_file'), function (req, res) {
                         var dir = oldCwd + "/" + myDirectory;
                         process.chdir(dir);
                         exec('pdflatex'
-                            + " -halt-on-error " + texFileName, function callback(err, stdout, stderr) {
+                            + " -halt-on-error -interactionmode=nonstopmode " + texFileName, function callback(err, stdout, stderr) {
                             process.chdir(oldCwd);
                             var filename = myDirectory + "*.pdf";
                             if (err) {
