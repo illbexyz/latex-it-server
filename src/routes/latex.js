@@ -8,7 +8,13 @@ const compile = require('../latex/latex');
 // POST method route
 router.post('/', upload.single('zip_file'), function (req, res) {
   const filename = req.file.filename;
-  const compiler = req.file.compiler || 'pdflatex';
+  let compiler = req.file.compiler;
+  // Just making sure to run one of this allowed exes
+  if(compiler != 'pdflatex' 
+    || compiler != 'latexmk' 
+    || compiler != 'xelatex') {
+    compiler = 'pdflatex';
+  }
   compile(compiler, filename)
     .then((file) => sendResultingFile(file, res))
     .catch((error) => errorHandler(error, res));
