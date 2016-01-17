@@ -45,5 +45,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('default', ['eslint', 'babel', 'watch']);
+  grunt.registerTask('default', ['babel']);
+  grunt.registerTask('dev', ['eslint', 'babel', 'watch']);
 };
