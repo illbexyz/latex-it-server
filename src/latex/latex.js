@@ -120,11 +120,14 @@ function launchCompiler(compiler, directory, texFileName) {
     process.chdir(dir);
     exec(command, (err, stdout, stderr) => {
       process.chdir(oldCwd);
-      var filename = directory + '*.pdf';
+      let filename = `${directory}@(*.pdf|*.dvi)`;
       if(err) {
         filename = directory + '*.log';
       }
       glob(filename, function (err, files) {
+        if(err || files.length == 0) {
+          reject(new Error('No pdf/dvi file found'));
+        }
         resolve(files[0]);
       });
     });
