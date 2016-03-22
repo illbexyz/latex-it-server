@@ -20,9 +20,10 @@ router.post('/', upload.single('zip_file'), function (req, res) {
     break;
   }
   latexCompiler.compileFile(compiler, filename)
-    .then((result) => sendResultingFile(result.file, res))
-    // TODO: Questo non funzia
-    .then((result) => latexCompiler.deleteDirectory(result.directory))
+    .then(result => {
+      sendResultingFile(result.file, res);
+      latexCompiler.deleteDirectory(result.directory);
+    })
     .catch((error) => errorHandler(error, res));
 });
 
