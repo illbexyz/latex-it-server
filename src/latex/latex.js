@@ -18,8 +18,7 @@ function compileFile(compiler, filename) {
       .then(() => extractZip(workingDir, newZipPath))
       .then(() => findTexFilesIn(workingDir))
       .then((texFileName) => launchCompiler(compiler, workingDir, texFileName))
-      .then((file) => resolve(file))
-      .then(() => deleteDirectory(workingDir))
+      .then((file) => resolve({ file, directory: workingDir }))
       .catch((error) => {
         deleteDirectory(workingDir);
         reject(error);
@@ -75,7 +74,7 @@ function extractZip(directory, zipPath) {
       zip.extractAllTo(directory, true);
       resolve();
     } catch(error){
-      console.err('Invalid zip file: ' + error);
+      console.error('Invalid zip file: ' + error);
       reject(new Error(error));
     }
   });
@@ -152,4 +151,4 @@ function deleteDirectory(directory){
   });
 }
 
-module.exports = compileFile;
+module.exports = { compileFile, deleteDirectory };

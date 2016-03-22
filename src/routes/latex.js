@@ -3,7 +3,7 @@ const router 	= express.Router();
 const multer  = require('multer');
 const upload  = multer({dest: 'uploads/'});
 const path    = require('path');
-const compile = require('../latex/latex');
+const latexCompiler = require('../latex/latex');
 
 // POST method route
 router.post('/', upload.single('zip_file'), function (req, res) {
@@ -19,16 +19,18 @@ router.post('/', upload.single('zip_file'), function (req, res) {
     compiler = 'pdflatex';
     break;
   }
-  compile(compiler, filename)
-    .then((file) => sendResultingFile(file, res))
+  latexCompiler.compileFile(compiler, filename)
+    .then((result) => sendResultingFile(result.file, res))
+    // TODO: Questo non funzia
+    .then((result) => latexCompiler.deleteDirectory(result.directory))
     .catch((error) => errorHandler(error, res));
 });
 
 function sendResultingFile(file, res) {
-  res.sendFile(path.resolve(file), function (err) {
+  const fileAbsolutePath = path.resolve(file);
+  res.sendFile(fileAbsolutePath, function (err) {
     if(err) {
-      console.error('Error sending the file: ' + err);
-      res.status(400).send(err);
+      throw new Error('Error sending the file: ' + err);
     }
   });
 }
