@@ -31,7 +31,7 @@ function sendResultingFile(file, res) {
   const fileAbsolutePath = path.resolve(file);
   res.sendFile(fileAbsolutePath, function (err) {
     if(err) {
-      throw new Error('Error sending the file: ' + err);
+      errorHandler(err, res);
     }
   });
 }
