@@ -30,9 +30,7 @@ router.post('/', upload.single('zip_file'), function (req, res) {
 function sendResultingFile(file, res) {
   const fileAbsolutePath = path.resolve(file);
   res.sendFile(fileAbsolutePath, function (err) {
-    if(err) {
-      errorHandler(err, res);
-    }
+    if(err) errorHandler(err, res);
   });
 }
 

@@ -13,7 +13,7 @@
     "url": "https://github.com/albyxyz/latex-it-server.git"
   },
   "scripts": {
-    "start": "cd dist && sudo node bin/www.js"
+    "start": "cd dist && node bin/www.js"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
